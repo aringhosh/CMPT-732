@@ -1,0 +1,10 @@
+1. An RDD has many methods: it can do many more useful tricks than were at hand with MapReduce. Write a sentence or two to explain the difference between .map and .flatMap. Which is more like the MapReduce concept of mapping?
+
+Ans: The similarity of map and flatMap is that both of them apply a function to a given RDD objects (each of them one after another) and return a new RDD. The difference between .map and .flatMap is that whereas .map returns only 1 object, but flatMap falttens the output and may return multiple object depending on the input RDD and the function applied.
+
+
+2. Do the same for .reduce and .reduceByKey. Which is more like the MapReduce concept of reducing?
+
+Ans: Going through the official documentation (http://spark.apache.org/docs/latest/api/python/pyspark.html?highlight=reduce#pyspark.RDD.reduce), my understanding is that both reduce() and reduceByKey() merge values of each key using a given function. But the extra thing that reduceByKey() does is, it aggregates/combines keys at the mapper level, if we think from the Hadoop MapReduce concept's point of view, reduceByKey is the "combiner". 
+
+Therefore, reduceByKey() is closer to the MapReduce concept.

@@ -1,0 +1,45 @@
+
+1.	Are there any parts of the original WordCount that still confuse you? If so, what?
+
+Ans: I think the instructions were pretty self explanatory in the assignment. However that can also be a problem for me. Since I didn’t ventured anything outside the assignment this time. Therefore I am not quite sure if I understood the entire relationship between all the Classes that I am using in this file. Hopefully over the next few days I ciuld play with this more and get a clearer picture. 
+
+So the short answer to your question is ‘Nothing so far’.
+	
+--------------------------
+2. How did the output change when you submitted with -D mapreduce.job.reduces=3? Why would this be necessary if your job produced large output sets?
+	
+Ans: If we submit with 3 reducer it gives me the output broken into 3 separate files. Part-r-00000 to 00002. This is because that 3 reducer worked in parallel to produce 3 outputs.  
+
+aring@nml-cloud-220:~$ hdfs dfs -ls output-2
+Found 4 items
+-rw-r--r--   2 aring hdfs          0 2017-09-15 09:16 output-2/_SUCCESS
+-rw-r--r--   2 aring hdfs      43811 2017-09-15 09:16 output-2/part-r-00000
+-rw-r--r--   2 aring hdfs      43848 2017-09-15 09:16 output-2/part-r-00001
+-rw-r--r--   2 aring hdfs      42697 2017-09-15 09:16 output-2/part-r-00002
+
+This is important from a resource allocation standpoint. If I have very few reducers then it may become an expensive operation and I will also not take the full advantage of the distributed system. But I need to also make sure that I don't specify too many reducers, its going to be inefficient that way as well.
+
+---------------------------
+3. How was the -D mapreduce.job.reduces=0 output different?
+
+Ans: A zero reducer means that the map output essentially is the final output and no reducer job takes place. When I run with 0 reducer, I can see this output:
+
+Job Counters
+		Launched map tasks=4
+		Data-local map tasks=3
+		Rack-local map tasks=1
+		Total time spent by all maps in occupied slots (ms)=9796
+		Total time spent by all reduces in occupied slots (ms)=0
+		Total time spent by all map tasks (ms)=9796
+		Total vcore-milliseconds taken by all map tasks=9796
+		Total megabyte-milliseconds taken by all map tasks=10031104
+
+So since there were total of 4 map tasks ran, I will have 4 outputs in the output directory. Also the file name will have ‘m’ instead of ‘r’ denoting that its a map (m) output rather than reducer (r) output.
+
+aring@nml-cloud-220:~$ hdfs dfs -ls output-3
+Found 5 items
+-rw-r--r--   2 aring hdfs          0 2017-09-15 09:26 output-3/_SUCCESS
+-rw-r--r--   2 aring hdfs    1313999 2017-09-15 09:26 output-3/part-m-00000
+-rw-r--r--   2 aring hdfs     977549 2017-09-15 09:26 output-3/part-m-00001
+-rw-r--r--   2 aring hdfs     672709 2017-09-15 09:26 output-3/part-m-00002
+-rw-r--r--   2 aring hdfs        470 2017-09-15 09:26 output-3/part-m-00003

@@ -1,0 +1,6 @@
+1. For the weather data question, did you prefer writing the “DataFrames + Python methods” style, or the “temp tables + SQL syntax” style form solving the problem? Why?
+
+- I prefer dataframe + python. Because the code is more manageable and it keep things short. A simple join can be be easily a couple of lines in SQL whereas if I use df there's a defined function call with very structured parameters.
+
+Which do you think produces more readable code?
+- Data Frame + Python produces more readable code in my opinion.

@@ -1,0 +1,14 @@
+1. In the WikipediaPopular class, it would be much more interesting to find the page that is most popular, not just the view count. What would be necessary to modify your class to do this? (You don't have to actually implement it.)
+
+Ans: A possible answer that I can think of is to use a MapWritable instead of a LongWritable to store as the value. That way we can store <String pagename, Long request> during mapping and subsequently inside the reduce() we can then extract the pagename whenever a new max value is encountered for this particular file.
+
+
+2. Was there any noticeable difference in the running time of your RedditAverage with and without the combiner optimization?
+
+Ans: I didn't notice a whole lot of difference but again may be that's because I was running a standalone instance. But going through the theory, it should make computation easier for reducer since the job of the combiner is to group similar records together and feed to reducer to further the process.
+
+
+3. For the given sample inputs to EulerEstimator, how long did it take each take to complete on the cluster? Why would they be different?
+
+Ans: The first set of input took me around 3mins 26 seconds to run. Whereas the second input set took me less than 30 seconds to run.
+This is because in the first input there is one file with n number of lines. So only one mapper runs (i.e. only one node ran) But on the second input there's n files each with a single lines of input. So my understanding is, there were multiple mappers working in this case and that's why there's a noticable bump in performance.

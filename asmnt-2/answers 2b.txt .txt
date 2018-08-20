@@ -1,0 +1,13 @@
+1. Under what conditions will the broadcast join be faster than an actual join?
+
+The broadcast join will work faster when the data that we are trying to join is significantly smaller than the dataset on which we are joining on. 
+
+2. When will the broadcast join be slower?
+
+In case when the data we are trying to map is almost as big as the data on the executors then it may not be very efficient to use broadcast join. Also if the data that we are trying to broadcast is so large that it cannot be fitted in the memory then that might be a potential problem as well. 
+
+3. What was the problem with the input data wordcount-4? How did you fix the wordcount program so it handled this input and processed it more quickly?
+
+The problem with the wordcount-4 was that the data was not evenly distributed. From the UI we can see that 2 of the executors took a considerable longer time to finish.
+
+The way to fix this was using repartitioning of the data using the repartition() so that the data is now evenly split and each executor's burden is now equally distributed. Since that increases the parallelism of the program, the program now executes faster.
